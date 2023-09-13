@@ -54,10 +54,34 @@ public class BookController {
         return "redirect:/booklist";
     }
 
-    // Delete functionality
+    
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteBook(@PathVariable Long id) {
         bookRepository.deleteById(id);
         return "redirect:/booklist";
     }
+    
+
+    @RequestMapping(value = "/editbook/{id}", method = RequestMethod.GET)
+    public String showEditBookForm(@PathVariable Long id, Model model) {
+        Book book = bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book id"));
+        model.addAttribute("book", book);
+        return "editbook";
+    }
+
+    @RequestMapping(value = "/editbook/{id}", method = RequestMethod.POST)
+    public String editBook(@PathVariable Long id, @ModelAttribute Book updatedBook) {
+        Book book = bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book id"));
+        
+      
+        book.setTitle(updatedBook.getTitle());
+        book.setAuthor(updatedBook.getAuthor());
+        book.setPublicationYear(updatedBook.getPublicationYear());
+        book.setIsbn(updatedBook.getIsbn());
+        book.setPrice(updatedBook.getPrice());
+        
+        bookRepository.save(book);
+        return "redirect:/booklist";
+    }
 }
+
