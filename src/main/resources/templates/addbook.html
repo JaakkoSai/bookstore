@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Book</title>
+</head>
+<body>
+    <h1>Add a New Book</h1>
+    
+    <form action="/addbook" method="post">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required><br><br>
+        
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" required><br><br>
+        
+        <label for="publicationYear">Publication Year:</label>
+        <input type="number" id="publicationYear" name="publicationYear" required><br><br>
+        
+        <label for="isbn">ISBN:</label>
+        <input type="text" id="isbn" name="isbn" required><br><br>
+        
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required><br><br>
+        
+        <button type="submit">Add Book</button>
+    </form>
+    
+    <a href="/booklist">Back to Book List</a>
+</body>
+</html>
