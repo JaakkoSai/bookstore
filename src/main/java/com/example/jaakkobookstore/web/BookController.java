@@ -1,6 +1,8 @@
 package com.example.jaakkobookstore.web;
 
 import java.util.ArrayList;
+import java.util.List;
+import com.example.jaakkobookstore.domain.Book;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,5 +29,15 @@ public class BookController {
 	public String index(Model model) {
 
 		return "index";
+	}
+
+	@RequestMapping(value = "/booklist", method = RequestMethod.GET)
+	public String bookList(Model model) {
+		
+		List<Book> books = bookRepository.findAll();
+
+		model.addAttribute("books", books);
+		
+		return "booklist";
 	}
 }
