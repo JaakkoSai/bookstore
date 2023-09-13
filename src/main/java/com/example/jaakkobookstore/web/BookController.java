@@ -7,6 +7,7 @@ import com.example.jaakkobookstore.domain.Book;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,4 +41,23 @@ public class BookController {
 		
 		return "booklist";
 	}
+	
+	@RequestMapping(value = "/addbook", method = RequestMethod.GET)
+    public String showAddBookForm(Model model) {
+        model.addAttribute("book", new Book());
+        return "addbook";
+    }
+
+    @RequestMapping(value = "/addbook", method = RequestMethod.POST)
+    public String addBook(@ModelAttribute Book book) {
+        bookRepository.save(book);
+        return "redirect:/booklist";
+    }
+
+    // Delete functionality
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String deleteBook(@PathVariable Long id) {
+        bookRepository.deleteById(id);
+        return "redirect:/booklist";
+    }
 }
