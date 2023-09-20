@@ -3,6 +3,7 @@ package com.example.jaakkobookstore.web;
 import java.util.ArrayList;
 import java.util.List;
 import com.example.jaakkobookstore.domain.Book;
+import com.example.jaakkobookstore.domain.Category;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.jaakkobookstore.domain.BookRepository;
+import com.example.jaakkobookstore.domain.CategoryRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,10 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class BookController {
 
 	private final BookRepository bookRepository;
+	private final CategoryRepository categoryRepository;
 
 	@Autowired
-	public BookController(BookRepository bookRepository) {
+	public BookController(BookRepository bookRepository, CategoryRepository categoryRepository) {
 		this.bookRepository = bookRepository;
+		this.categoryRepository = categoryRepository;
 	}
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -44,7 +48,9 @@ public class BookController {
 	
 	@RequestMapping(value = "/addbook", method = RequestMethod.GET)
     public String showAddBookForm(Model model) {
+		List<Category> categories = (List<Category>) categoryRepository.findAll();
         model.addAttribute("book", new Book());
+        model.addAttribute("categories", categories);
         return "addbook";
     }
 
