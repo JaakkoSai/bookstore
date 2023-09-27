@@ -22,11 +22,11 @@ public class CategoryData implements CommandLineRunner{
 		categoryRepository.save(category1);
 		
 		Category category2 = new Category();
-		category1.setName("Fiction");
+		category1.setName("Action");
 		categoryRepository.save(category2);
 		
 		Category category3 = new Category();
-		category1.setName("Fiction");
+		category1.setName("Romance");
 		categoryRepository.save(category3);
 	}
 }
