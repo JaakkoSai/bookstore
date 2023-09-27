@@ -2,6 +2,8 @@ package com.example.jaakkobookstore.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import com.example.jaakkobookstore.domain.Book;
 import com.example.jaakkobookstore.domain.Category;
 
@@ -12,11 +14,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.example.jaakkobookstore.domain.BookRepository;
 import com.example.jaakkobookstore.domain.CategoryRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 
 @Controller
 public class BookController {
@@ -89,5 +96,32 @@ public class BookController {
         bookRepository.save(book);
         return "redirect:/booklist";
     }
+    
+    @RestController
+    @RequestMapping("/api/books")
+    public class BookRestController {
+    	private final BookRepository bookRepository;
+
+        public BookRestController(BookRepository bookRepository) {
+            this.bookRepository = bookRepository;
+    }
+        @GetMapping
+        public Iterable<Book> getAllBooks() {
+            return bookRepository.findAll();
+        }
+        
+        @GetMapping("/{id}")
+        public ResponseEntity<Book> getBookById(@PathVariable Long id) {
+            Optional<Book> book = bookRepository.findById(id);
+            if (book.isPresent()) {
+                return ResponseEntity.ok(book.get());
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        }
+
+    }
+
+
 }
 
